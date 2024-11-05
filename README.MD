@@ -57,3 +57,6 @@ Um ranking em tempo real exibirá todos os jogadores registrados, mostrando quem
 
 ## Contribuição
 Sinta-se à vontade para contribuir com melhorias, relatórios de bugs ou novas ideias!
+
+## Licença
+Este projeto está sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
