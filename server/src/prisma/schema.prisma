@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Class {
+  id     Int      @id @default(autoincrement())
+  name   String
+  players Player[]
+}
+
+model Player {
+  id      Int    @id @default(autoincrement())
+  name    String
+  coins   Int
+  class   Class  @relation(fields: [classId], references: [id])
+  classId Int
+  questsChallenged Quest[] @relation("ChallengerQuest")
+  questsTargeted   Quest[] @relation("TargetQuest")
+}
+
+model Quest {
+  id          Int     @id @default(autoincrement())
+  title       String
+  category    String
+  difficulty  String
+  reward      Int     @default(0)
+  challenger  Player? @relation("ChallengerQuest", fields: [challengerId], references: [id])
+  challengerId Int?
+  target      Player? @relation("TargetQuest", fields: [targetId], references: [id])
+  targetId    Int?
+}
+
