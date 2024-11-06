@@ -12,4 +12,19 @@ export default class QuestController {
             return res.status(500).json(error);
         }
     }
+
+    async getRandomQuests(req: Request, res: Response) {
+        try {
+            const quests = await this.questService.getRandomQuests();
+            return res.status(200).json(quests);
+        } catch (error) {   
+            return res.status(500).json(error);
+        }
+    }
+
+    async acceptQuest(req: Request, res: Response) {
+        // get player from req
+        // get quest from req
+        // create player-quest relationship
+    }
 }

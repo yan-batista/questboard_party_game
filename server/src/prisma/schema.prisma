@@ -19,8 +19,8 @@ model Player {
   coins   Int
   class   Class  @relation(fields: [classId], references: [id])
   classId Int
-  questsChallenged Quest[] @relation("ChallengerQuest")
-  questsTargeted   Quest[] @relation("TargetQuest")
+  quests Quest[]
+  bountyTarget Quest? @relation("bountyTarget")
 }
 
 model Quest {
@@ -29,9 +29,7 @@ model Quest {
   category    String
   difficulty  String
   reward      Int     @default(0)
-  challenger  Player? @relation("ChallengerQuest", fields: [challengerId], references: [id])
-  challengerId Int?
-  target      Player? @relation("TargetQuest", fields: [targetId], references: [id])
-  targetId    Int?
+  challenger Player[]
+  bountyTarget Player? @relation("bountyTarget", fields: [bountyTargetId], references: [id])
+  bountyTargetId Int? @unique
 }
-
