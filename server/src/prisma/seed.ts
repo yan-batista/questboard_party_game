@@ -15,24 +15,52 @@ async function main() {
   });
 
   // Create Players
+  const players = [
+    {
+      username: 'alice123',
+      password: 'Password123',
+      name: 'Alice',
+      coins: 100,
+      classId: warrior.id
+    },
+    {
+      username: 'bob456',
+      password: 'Password456',
+      name: 'Bob',
+      coins: 200,
+      classId: warrior.id
+    },
+    {
+      username: 'charlie789',
+      password: 'Password789',
+      name: 'Charlie',
+      coins: 150,
+      classId: mage.id
+    }
+  ];
+
   const player1 = await prisma.player.create({
-    data: { name: 'Alice', coins: 100, classId: warrior.id },
-  });
+    data: {
+      username: 'eve202',
+      password: 'Password202',
+      name: 'Eve',
+      coins: 300,
+      classId: rogue.id
+    }
+  })
 
   const player2 = await prisma.player.create({
-    data: { name: 'Bob', coins: 50, classId: mage.id },
-  });
+    data: {
+      username: 'david101',
+      password: 'Password101',
+      name: 'David',
+      coins: 250,
+      classId: mage.id
+    },
+  })
 
-  const player3 = await prisma.player.create({
-    data: { name: 'Charlie', coins: 75, classId: rogue.id },
-  });
-
-  const player4 = await prisma.player.create({
-    data: { name: 'Diana', coins: 60, classId: mage.id },
-  });
-
-  const player5 = await prisma.player.create({
-    data: { name: 'Eve', coins: 120, classId: warrior.id },
+  await prisma.player.createMany({
+    data: players,
   });
 
   // Create Quests
@@ -45,8 +73,8 @@ async function main() {
       { title: 'Quest 5', category: 'Performance', difficulty: 'Hard', reward: 50, bountyTargetId: player2.id },
       { title: 'Quest 6', category: 'Trick', difficulty: 'Medium', reward: 25 },
       { title: 'Quest 7', category: 'Challenge', difficulty: 'Medium', reward: 30 },
-      { title: 'Quest 8', category: 'Performance', difficulty: 'Easy', reward: 10, bountyTargetId: player3.id },
-      { title: 'Quest 9', category: 'Trick', difficulty: 'Hard', reward: 40, bountyTargetId: player4.id },
+      { title: 'Quest 8', category: 'Performance', difficulty: 'Easy', reward: 10 },
+      { title: 'Quest 9', category: 'Trick', difficulty: 'Hard', reward: 40 },
       { title: 'Quest 10', category: 'Challenge', difficulty: 'Medium', reward: 20 },
     ],
   });

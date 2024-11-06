@@ -15,8 +15,10 @@ model Class {
 
 model Player {
   id      Int    @id @default(autoincrement())
-  name    String
-  coins   Int
+  username String @unique
+  password String
+  name    String @unique
+  coins   Int @default(0)
   class   Class  @relation(fields: [classId], references: [id])
   classId Int
   quests Quest[]
