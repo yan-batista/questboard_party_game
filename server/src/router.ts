@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import questController from "./controllers/QuestController";
 import playerController from "./controllers/PlayerController";
+import ensureAuth from "./middlewares/ensureAuth";
 
 const router = Router()
 
@@ -20,16 +21,12 @@ router.get('/logout', (req: Request, res: Response) => {
     playerController.logout(req, res)
 })
 
-router.get('/random', (req: Request, res: Response) => {
+router.get('/quests', ensureAuth, (req: Request, res: Response) => {
     questController.getRandomQuests(req, res)
 })
 
 /**
  * TODO: / --> qr code / ranking
- * /signup
- * /login
- * /logout
- * TODO: /(auth)quests --> return 3 quests to select/show current quest
  * TODO: /(auth)quests/bounty --> create bounty
  */
 

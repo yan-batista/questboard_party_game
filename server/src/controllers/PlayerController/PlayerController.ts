@@ -22,9 +22,10 @@ class PlayerController {
             const expirationTime = new Date();
             expirationTime.setDate(expirationTime.getDate() + 2)
 
+            // FIXME: change secure to true in prod
             return response
                 .status(200)
-                .cookie("jwtToken", token, {httpOnly: true, secure: true, sameSite: "none", expires: expirationTime})
+                .cookie("jwtToken", token, {httpOnly: true, secure: false, sameSite: "none", expires: expirationTime})
                 .json({ message: "User logged in successfully" })
         } catch (error: Error | any) {
             return response.status(500).json({ error: error.message });
