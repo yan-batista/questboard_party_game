@@ -1,11 +1,11 @@
 import {Request, Response, NextFunction} from 'express'
 import {verify} from 'jsonwebtoken'
 
-export interface CustomRequest extends Request {
+export interface AuthRequest extends Request {
     playerUsername?: string
 }
 
-function ensureAuth(request: CustomRequest, response: Response, next: NextFunction) {
+function ensureAuth(request: AuthRequest, response: Response, next: NextFunction) {
     const token = request.cookies.jwtToken;
     if (!token) {
         response.status(401).json({ message: "Authorization token is required" });

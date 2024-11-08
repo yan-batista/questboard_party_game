@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import PlayerService from "../../services/PlayerServce";
-import { CustomRequest } from "../../middlewares/ensureAuth";
+import { AuthRequest } from "../../middlewares/ensureAuth";
 
 class PlayerController {
     constructor(private playerService: PlayerService) {}
@@ -40,7 +40,7 @@ class PlayerController {
             .json({ message: "User logged out successfully" })
     }
 
-    async acceptQuest(request: CustomRequest, response: Response) {
+    async acceptQuest(request: AuthRequest, response: Response) {
         const { questId } = request.body;
         const { playerUsername } = request;
 
@@ -54,7 +54,7 @@ class PlayerController {
         }
     }
 
-    async completeQuest(request: CustomRequest, response: Response) {
+    async completeQuest(request: AuthRequest, response: Response) {
         const { playerUsername } = request;
 
         if(!playerUsername) return response.status(401).json({message: "Player username not found in request"});

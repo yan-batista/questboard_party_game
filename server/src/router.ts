@@ -33,4 +33,8 @@ router.get('/quests/complete', ensureAuth, (req: Request, res: Response) => {
     playerController.completeQuest(req, res)
 })
 
+router.post('/quests/bounty', ensureAuth, (req: Request, res: Response) => {
+    questController.createBounty(req, res)
+})
+
 export default router
