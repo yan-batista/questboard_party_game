@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import PlayerService from "../../services/PlayerServce";
+import { CustomRequest } from "../../middlewares/ensureAuth";
 
 class PlayerController {
     constructor(private playerService: PlayerService) {}
@@ -37,6 +38,33 @@ class PlayerController {
             .status(200)
             .clearCookie("jwtToken")
             .json({ message: "User logged out successfully" })
+    }
+
+    async acceptQuest(request: CustomRequest, response: Response) {
+        const { questId } = request.body;
+        const { playerUsername } = request;
+
+        if(!playerUsername) return response.status(401).json({message: "Player username not found in request"});
+
+        try {
+            await this.playerService.acceptQuest(playerUsername, questId);
+            return response.status(200).json({ message: "Quest accepted successfully" })
+        } catch (error: Error | any) {
+            return response.status(500).json({ error: error.message });
+        }
+    }
+
+    async completeQuest(request: CustomRequest, response: Response) {
+        const { playerUsername } = request;
+
+        if(!playerUsername) return response.status(401).json({message: "Player username not found in request"});
+
+        try {
+            await this.playerService.completeQuest(playerUsername);
+            return response.status(200).json({ message: "Quest completed successfully" })        
+        } catch (error: Error | any) {
+            return response.status(500).json({ error: error.message });
+        }
     }
 }
 

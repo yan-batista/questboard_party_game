@@ -19,10 +19,17 @@ model Player {
   password String
   name    String @unique
   coins   Int @default(0)
+
+  // defines which class the player has
   class   Class  @relation(fields: [classId], references: [id])
   classId Int
-  quests Quest[]
-  bountyTarget Quest? @relation("bountyTarget")
+  // defines what active quest the player has
+  activeQuest Quest? @relation("ActiveQuest", fields: [activeQuestId], references: [id])
+  activeQuestId Int?
+  // defines the bounty created by this player
+  createdBounty Bounty? @relation("CreatedBounty")
+  // defines the bounty targeting this player
+  targetBounty Bounty? @relation("TargetBounty")
 }
 
 model Quest {
@@ -31,7 +38,20 @@ model Quest {
   category    String
   difficulty  String
   reward      Int     @default(0)
-  challenger Player[]
-  bountyTarget Player? @relation("bountyTarget", fields: [bountyTargetId], references: [id])
-  bountyTargetId Int? @unique
+
+  // players with this quest as an active quest
+  players Player[] @relation("ActiveQuest")
+}
+
+model Bounty {
+  id          Int     @id @default(autoincrement())
+  title       String
+  reward      Int     @default(0)
+
+  // defines the player who created this bounty
+  creator Player @relation("CreatedBounty", fields: [creatorId], references: [id])
+  creatorId Int @unique
+  // defines the player who is the target of the bounty
+  target Player @relation("TargetBounty", fields: [targetId], references: [id])
+  targetId Int @unique
 }

@@ -1,7 +1,7 @@
 import {Request, Response, NextFunction} from 'express'
 import {verify} from 'jsonwebtoken'
 
-interface CustomRequest extends Request {
+export interface CustomRequest extends Request {
     playerUsername?: string
 }
 

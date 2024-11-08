@@ -69,13 +69,21 @@ async function main() {
       { title: 'Quest 1', category: 'Challenge', difficulty: 'Easy', reward: 10 },
       { title: 'Quest 2', category: 'Performance', difficulty: 'Medium', reward: 20 },
       { title: 'Quest 3', category: 'Trick', difficulty: 'Hard', reward: 30 },
-      { title: 'Quest 4', category: 'Challenge', difficulty: 'Easy', reward: 15, bountyTargetId: player1.id },
-      { title: 'Quest 5', category: 'Performance', difficulty: 'Hard', reward: 50, bountyTargetId: player2.id },
+      { title: 'Quest 4', category: 'Challenge', difficulty: 'Easy', reward: 15 },
+      { title: 'Quest 5', category: 'Performance', difficulty: 'Hard', reward: 50 },
       { title: 'Quest 6', category: 'Trick', difficulty: 'Medium', reward: 25 },
       { title: 'Quest 7', category: 'Challenge', difficulty: 'Medium', reward: 30 },
       { title: 'Quest 8', category: 'Performance', difficulty: 'Easy', reward: 10 },
       { title: 'Quest 9', category: 'Trick', difficulty: 'Hard', reward: 40 },
       { title: 'Quest 10', category: 'Challenge', difficulty: 'Medium', reward: 20 },
+    ],
+  });
+
+  // Create bounties
+  await prisma.bounty.createMany({
+    data: [
+      { title: 'Bounty 1', reward: 10, creatorId: player1.id, targetId: player2.id },
+      { title: 'Bounty 1', reward: 20, creatorId: player2.id, targetId: player1.id },
     ],
   });
 }

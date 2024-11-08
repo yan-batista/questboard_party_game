@@ -25,9 +25,12 @@ router.get('/quests', ensureAuth, (req: Request, res: Response) => {
     questController.getRandomQuests(req, res)
 })
 
-/**
- * TODO: / --> qr code / ranking
- * TODO: /(auth)quests/bounty --> create bounty
- */
+router.post('/quests/accept', ensureAuth, (req: Request, res: Response) => {
+    playerController.acceptQuest(req, res)
+})
+
+router.get('/quests/complete', ensureAuth, (req: Request, res: Response) => {
+    playerController.completeQuest(req, res)
+})
 
 export default router

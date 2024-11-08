@@ -75,6 +75,73 @@ class PlayerService {
         const token = sign({username: userExists.username}, secret, {expiresIn: "2d"});
         return token;
     }
+
+    async acceptQuest(playerUsername: string, questId: number) {
+        // check if player already has quest
+        const playerHasQuest = await prisma.player.findUnique({
+            where: {
+                username: playerUsername
+            },
+            include: {
+                activeQuest: true
+            }
+        })
+        if(playerHasQuest?.activeQuest) throw new Error("Player already has a quest");
+
+        // check if quest exists
+        const questExists = await prisma.quest.findFirst({
+            where: {id: questId}
+        })
+        if(!questExists) throw new Error("Quest not found");
+
+        // update player quest
+        await prisma.player.update({
+            where: {
+                username: playerUsername
+            },
+            data: {
+                activeQuest: {
+                    connect: {
+                        id: questId
+                    }
+                }
+            }
+        })
+    }
+
+    async completeQuest(playerUsername: string) {
+        // check if player has quest
+        const playerHasQuest = await prisma.player.findUnique({
+            where: {
+                username: playerUsername
+            },
+            include: {
+                activeQuest: true
+            }
+        })
+        if(!playerHasQuest?.activeQuest) throw new Error("Player does not have a quest");
+
+        // check if quest exists
+        const questExists = await prisma.quest.findFirst({
+            where: {id: playerHasQuest.activeQuest.id}
+        })
+        if(!questExists) throw new Error("Quest not found");
+
+        // update player quest
+        await prisma.player.update({
+            where: {
+                username: playerUsername
+            },
+            data: {
+                activeQuest: {
+                    disconnect: true
+                },
+                coins: {
+                    increment: questExists.reward
+                }
+            }
+        })
+    }
 }
 
 export default PlayerService
